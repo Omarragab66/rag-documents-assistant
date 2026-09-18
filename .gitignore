@@ -1,0 +1,30 @@
+﻿# Environments
+.venv/
+env/
+venv/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.ipynb_checkpoints/
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+
+# Vector Store / Cache artifacts (keep repository light < 50MB)
+backend/data/vector_store/
+data/vector_store/
+*.chroma/
+
+# OS / Editor artifacts
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

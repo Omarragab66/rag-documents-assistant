@@ -1,0 +1,39 @@
+Question,Retrieved Sources,Answer,Time (s),CodeExtracted,Grounded,Correct
+How do I define a basic path parameter in FastAPI?,"tutorial_first-steps.md, tutorial_query-params-str-validations.md, tutorial_query-params.md","I do not have enough information in the provided documentation.
+
+Sources: tutorial_first-steps.md, tutorial_query-params-str-validations.md, tutorial_query-params.md",14.34,No,No,No
+How does query parameter validation work with Query in FastAPI?,tutorial_query-params-str-validations.md,"I do not have enough information in the provided documentation.
+
+Sources: tutorial_query-params-str-validations.md",16.5,No,No,No
+How can I handle CORS (Cross-Origin Resource Sharing) in FastAPI?,tutorial_cors.md,"I do not have enough information in the provided documentation.
+
+Sources: tutorial_cors.md",18.0,No,No,No
+What is the difference between path parameters and query parameters in FastAPI?,"tutorial_query-params-str-validations.md, tutorial_query-params.md","Path parameters are used to identify a specific instance of an endpoint, while query parameters allow for additional information or validation beyond what's required by default. Query parameters can be validated further using annotations like `Query(max_length=50)`, whereas path parameters do not require such validations unless explicitly stated in the documentation context provided here: ""You don't have to declare them [path] **in any specific order**.""
+
+Sources: tutorial_query-params-str-validations.md, tutorial_query-params.md",11.18,No,Yes,Yes
+How do I add custom middleware to process requests and responses?,tutorial_middleware.md,"To create a custom middleware in FastAPI, use the @app.middleware(""http"") decorator on top of your function. This allows you to intercept every incoming request before it reaches any specific path operation or response is generated after processing by that operation.
+
+The decorated method receives two parameters:
+- The `request` object containing information about each HTTP request.
+- A callable named ""call_next"" which will receive the same `request`. You can use this function as a proxy to pass requests and responses through your middleware without altering them directly.
+
+Sources: tutorial_middleware.md",10.0,No,Yes,Yes
+How does dependency injection work with Depends in FastAPI?,tutorial_dependencies_index.md,"I do not have enough information in the provided documentation.
+
+Sources: tutorial_dependencies_index.md",13.77,No,No,No
+Can dependencies have sub-dependencies in FastAPI?,"index.md, tutorial_dependencies_index.md","Dependencies can indeed include other components within a hierarchical system, making them powerful yet simple to manage. This allows for easy integration with various external packages or systems through the dependency injection approach provided by **FastAPI**.
+
+Sources: index.md, tutorial_dependencies_index.md",3.99,No,Yes,Yes
+How do I run background tasks after returning a response?,tutorial_background-tasks.md,"I do not have enough information in the provided documentation.
+
+Sources: tutorial_background-tasks.md",14.53,No,No,No
+How do I return a JSONResponse directly in an endpoint?,advanced_response-directly.md,"I do not have enough information in the provided documentation.
+
+Sources: advanced_response-directly.md",17.88,No,No,No
+What security utilities does FastAPI provide for OAuth2 passwords and tokens?,tutorial_security_first-steps.md,"According to your question about what security utilities are provided by FastAPI specifically related to using an `OAuth2` password flow:
+
+FastAPI provides the class `OAuth2PasswordBearer`, which is used in conjunction with dependencies. This allows you to define a secure scheme for authentication based on OAuth 2, particularly when dealing with passwords and tokens within your API endpoints.
+
+The documentation mentions that all security utilities integrated into OpenAPI (and their automatic APIs) inherit from `SecurityBase`. Therefore, FastAPI can integrate these utility classes seamlessly by inheriting them.
+
+Sources: tutorial_security_first-steps.md",9.37,No,Yes,No

@@ -10,6 +10,7 @@ from api_client import ask_question
 load_dotenv(Path(__file__).with_name(".env"))
 
 FALLBACK_MARKER = "Based on the documentation, the most relevant excerpt is:"
+REFUSAL_TEXT = "I do not have enough information in the provided documentation."
 
 st.set_page_config(
     page_title="FastAPI Document Assistant",
@@ -45,22 +46,29 @@ if question:
                 result = ask_question(question)
                 answer = result["answer"]
                 sources = result["sources"]
-                badge = (
-                    "📄 Direct excerpt"
-                    if FALLBACK_MARKER in answer
-                    else "🤖 Model-generated"
-                )
+
+                is_refusal = answer.strip() == REFUSAL_TEXT
+                if is_refusal:
+                    badge = "⛔ Safe refusal"
+                    display_sources = []
+                elif FALLBACK_MARKER in answer:
+                    badge = "📄 Direct excerpt"
+                    display_sources = sources
+                else:
+                    badge = "🤖 Model-generated"
+                    display_sources = sources
+
                 st.markdown(answer)
                 st.caption(badge)
-                if sources:
+                if display_sources:
                     with st.expander("Sources"):
-                        for source in sources:
+                        for source in display_sources:
                             st.markdown(f"- `{source}`")
                 st.session_state.messages.append({
                     "role": "assistant",
                     "content": answer,
                     "badge": badge,
-                    "sources": sources,
+                    "sources": display_sources,
                 })
             except requests.exceptions.Timeout:
                 message = "The backend took too long to respond. Please try again."

@@ -41,29 +41,33 @@ flowchart LR
 rag-documents-assistant/
 ├── backend/
 │   ├── app/
-│   │   ├── main.py
 │   │   ├── api/routes/query.py
 │   │   ├── core/config.py
 │   │   ├── schemas/query.py
-│   │   ├── services/retrieval.py
-│   │   ├── services/generation.py
-│   │   └── utils/logging_config.py
+│   │   ├── services/
+│   │   │   ├── generation.py
+│   │   │   └── retrieval.py
+│   │   ├── utils/logging_config.py
+│   │   └── main.py
 │   ├── data/vector_store/       # Generated locally; ignored by Git
 │   ├── tests/test_query.py
+│   ├── Dockerfile
 │   ├── requirements.txt
-│   └── Dockerfile
-├── data/raw_docs/               # FastAPI Markdown corpus
+│   └── .env.example
+├── data/
+│   └── raw_docs/               # FastAPI Markdown corpus (14 documents)
 ├── frontend/
 │   ├── app.py
 │   ├── api_client.py
-│   ├── .env.example
-│   └── requirements.txt
+│   ├── requirements.txt
+│   └── .env.example
 ├── notebooks/
-│   ├── rag_pipeline.ipynb
-│   ├── evaluation_results.csv
-│   └── evaluation_results_baseline_1.5b_fallback.csv
-├── backend/.env.example
-├── frontend/.env.example
+│   ├── rag_pipeline.ipynb      # Main RAG development & ingestion pipeline
+│   └── evaluation_results.csv  # 10-query benchmark metrics
+├── docs/
+│   ├── PROJECT_REPORT.md       # Comprehensive graduation project submission report
+│   ├── Graduation_Project_L2.pdf # Project requirements specification
+│   └── screenshots/streamlit-home.png
 ├── .gitignore
 └── README.md
 ```

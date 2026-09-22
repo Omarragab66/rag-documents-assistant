@@ -1,39 +1,153 @@
-Question,Retrieved Sources,Answer,Time (s),CodeExtracted,Grounded,Correct
-How do I define a basic path parameter in FastAPI?,"tutorial_first-steps.md, tutorial_query-params-str-validations.md, tutorial_query-params.md","I do not have enough information in the provided documentation.
+Question,Retrieved Sources,Answer,Time (s),Fallback,Grounded,Correct
+How do I define a basic path parameter in FastAPI?,"tutorial_dependencies_index.md, tutorial_path-params.md, tutorial_query-params.md","To declare a simple **FastAPI** path parameter with no default value:
 
-Sources: tutorial_first-steps.md, tutorial_query-params-str-validations.md, tutorial_query-params.md",14.34,No,No,No
-How does query parameter validation work with Query in FastAPI?,tutorial_query-params-str-validations.md,"I do not have enough information in the provided documentation.
+```python
+from fastapi import Path
 
-Sources: tutorial_query-params-str-validations.md",16.5,No,No,No
-How can I handle CORS (Cross-Origin Resource Sharing) in FastAPI?,tutorial_cors.md,"I do not have enough information in the provided documentation.
+path_param = Path(...)
+```
 
-Sources: tutorial_cors.md",18.0,No,No,No
-What is the difference between path parameters and query parameters in FastAPI?,"tutorial_query-params-str-validations.md, tutorial_query-params.md","Path parameters are used to identify a specific instance of an endpoint, while query parameters allow for additional information or validation beyond what's required by default. Query parameters can be validated further using annotations like `Query(max_length=50)`, whereas path parameters do not require such validations unless explicitly stated in the documentation context provided here: ""You don't have to declare them [path] **in any specific order**.""
+This will automatically detect the name of your variable as `param_name`. For example, if you use it in `/items/{item_id}` and assign an integer to `{item_id}`, FastAPI can infer that this is a path parameter named `'id'` without needing explicit declaration.
 
-Sources: tutorial_query-params-str-validations.md, tutorial_query-params.md",11.18,No,Yes,Yes
-How do I add custom middleware to process requests and responses?,tutorial_middleware.md,"To create a custom middleware in FastAPI, use the @app.middleware(""http"") decorator on top of your function. This allows you to intercept every incoming request before it reaches any specific path operation or response is generated after processing by that operation.
+Sources: tutorial_dependencies_index.md, tutorial_path-params.md, tutorial_query-params.md",7.9,No,Yes,No
+How does query parameter validation work with Query in FastAPI?,tutorial_query-params-str-validations.md,"When you use the `Annotated` decorator along with a custom validator like `max_length`, it tells FastAPI that your value should be validated further. In this case, by adding `Query(max_length=50)` inside of an annotated type definition for parameter 'q', we're telling FastAPI to enforce additional validation rules on its length.
 
-The decorated method receives two parameters:
-- The `request` object containing information about each HTTP request.
-- A callable named ""call_next"" which will receive the same `request`. You can use this function as a proxy to pass requests and responses through your middleware without altering them directly.
+This means any incoming query parameters with the name `'q'` will have their lengths checked against a maximum limit set at 50 characters. If they exceed this, it would trigger custom error handling or other validations as defined in your application logic for that parameter type and value range.
 
-Sources: tutorial_middleware.md",10.0,No,Yes,Yes
-How does dependency injection work with Depends in FastAPI?,tutorial_dependencies_index.md,"I do not have enough information in the provided documentation.
+Sources: tutorial_query-params-str-validations.md",21.19,No,Yes,Yes
+How can I handle CORS (Cross-Origin Resource Sharing) in FastAPI?,tutorial_cors.md,"To manage Cross-Origin Request Sharing (CORS) with your application using FastAPI:
 
-Sources: tutorial_dependencies_index.md",13.77,No,No,No
-Can dependencies have sub-dependencies in FastAPI?,"index.md, tutorial_dependencies_index.md","Dependencies can indeed include other components within a hierarchical system, making them powerful yet simple to manage. This allows for easy integration with various external packages or systems through the dependency injection approach provided by **FastAPI**.
+1. Import the CORSMiddleware from `fastapi.middleware`.
+2. Create a list of allowed origins as strings.
+3. Add this middleware to your **FastAPI** app.
 
-Sources: index.md, tutorial_dependencies_index.md",3.99,No,Yes,Yes
-How do I run background tasks after returning a response?,tutorial_background-tasks.md,"I do not have enough information in the provided documentation.
+```python
+from fastapi import CORS
 
-Sources: tutorial_background-tasks.md",14.53,No,No,No
-How do I return a JSONResponse directly in an endpoint?,advanced_response-directly.md,"I do not have enough information in the provided documentation.
+app = FastAPI()
+cors_mw = CORS(app, allow_origins=[""http://localhost:8081"", ""https://example.com""])
+```
 
-Sources: advanced_response-directly.md",17.88,No,No,No
-What security utilities does FastAPI provide for OAuth2 passwords and tokens?,tutorial_security_first-steps.md,"According to your question about what security utilities are provided by FastAPI specifically related to using an `OAuth2` password flow:
+This setup ensures that requests from specified origins are allowed and properly handled with appropriate headers.
 
-FastAPI provides the class `OAuth2PasswordBearer`, which is used in conjunction with dependencies. This allows you to define a secure scheme for authentication based on OAuth 2, particularly when dealing with passwords and tokens within your API endpoints.
+Sources: tutorial_cors.md",17.05,No,Yes,Yes
+What is the difference between path parameters and query parameters in FastAPI?,"tutorial_query-params-str-validations.md, tutorial_query-params.md","Based on the documentation, the most relevant excerpt is:
 
-The documentation mentions that all security utilities integrated into OpenAPI (and their automatic APIs) inherit from `SecurityBase`. Therefore, FastAPI can integrate these utility classes seamlessly by inheriting them.
+path and query parameters 
 
-Sources: tutorial_security_first-steps.md",9.37,No,Yes,No
+You can declare multiple path parameters and query parameters at the same time, **FastAPI** knows which is which.
+
+And you don't have to declare them in any specific order.
+
+They will be detected by name:
+
+{* ../../docs_src/query_params/tutorial004_py310.py hl[6,8] *}
+
+## Required query parameters 
+
+When you declare a default value for non-path parameters (for now, we have only seen query parameters), then it is not required.
+
+If you don't want to add a specific value
+
+Sources: tutorial_query-params-str-validations.md, tutorial_query-params.md",38.68,Yes,Yes,Yes
+How do I add custom middleware to process requests and responses?,tutorial_middleware.md,"Based on the documentation, the most relevant excerpt is:
+
+a convenience for you, the developer. But it comes directly from Starlette.
+
+///
+
+### Before and after the `response` 
+
+You can add code to be run with the `request`,  before any *path operation* receives it.
+
+And also after the `response` is generated, before returning it.
+
+For example, you could add a custom header `X-Process-Time` containing the time in seconds that it took to process the request and generate a response:
+
+{* ../../docs_src/middleware/tutorial001_py310.py hl[10,12:13] *}
+
+///
+
+Sources: tutorial_middleware.md",51.21,Yes,Yes,Yes
+How does dependency injection work with Depends in FastAPI?,tutorial_dependencies_index.md,"Based on the documentation, the most relevant excerpt is:
+
+# Dependencies 
+
+**FastAPI** has a very powerful but intuitive **Dependency Injection** system.
+
+It is designed to be very simple to use, and to make it very easy for any developer to integrate other components with **FastAPI**.
+
+## What is ""Dependency Injection"" 
+
+**""Dependency Injection""** means, in programming, that there is a way for your code (in this case, your *path operation functions*) to declare things that it requires to work and use: ""dependencies"".
+
+And then, that system (in this ca
+
+Sources: tutorial_dependencies_index.md",45.37,Yes,Yes,No
+Can dependencies have sub-dependencies in FastAPI?,tutorial_dependencies_index.md,"Yes, dependencies within a dependency system like **FastAPI** allow for nesting. For example:
+
+```Python
+commons_dependencies = Annotated[dict,
+    Depends(common_parameters),
+]
+```
+
+This structure enables you to chain multiple `Depends` functions together in your code.
+
+---
+
+Example of using nested sub-dependencies:
+- First, define the main dependency.
+  
+  ```python
+  commons: dict[str] | None = Depends(get_commons)
+  ```
+
+- Then use this as a parameter for another function that requires more specific dependencies:
+
+```Python
+sub_dependency_result: Annotated[dict,
+    Depends(sub_dependent_function(commons))
+]
+```
+This way, you can easily manage complex dependency hierarchies within your FastAPI application.
+
+Sources: tutorial_dependencies_index.md",33.86,No,Yes,Yes
+How do I run background tasks after returning a response?,"tutorial_background-tasks.md, tutorial_middleware.md","Based on the documentation, the most relevant excerpt is:
+
+# Background Tasks 
+
+You can define background tasks to be run *after* returning a response.
+
+This is useful for operations that need to happen after a request, but that the client doesn't really have to be waiting for the operation to complete before receiving the response.
+
+This includes, for example:
+
+* Email notifications sent after performing an action:
+    * As connecting to an email server and sending an email tends to be ""slow"" (several seconds), you can return the response right away an
+
+Sources: tutorial_background-tasks.md, tutorial_middleware.md",38.68,Yes,Yes,No
+How do I return a JSONResponse directly in an endpoint?,advanced_response-directly.md,"Based on the documentation, the most relevant excerpt is:
+
+# Return a Response Directly 
+
+When you create a **FastAPI** *path operation* you can normally return any data from it: a `dict`, a `list`, a Pydantic model, a database model, etc.
+
+If you declare a [Response Model](../tutorial/response-model.md) FastAPI will use it to serialize the data to JSON, using Pydantic.
+
+If you don't declare a response model, FastAPI will use the `jsonable_encoder` explained in [JSON Compatible Encoder](../tutorial/encoder.md) and put it in a `JSONResponse`.
+
+You could
+
+Sources: advanced_response-directly.md",33.48,Yes,Yes,Yes
+What security utilities does FastAPI provide for OAuth2 passwords and tokens?,"tutorial_security_first-steps.md, tutorial_security_index.md","Based on the documentation, the most relevant excerpt is:
+
+in the OpenAPI schema (and the automatic API docs).
+
+/// note | Technical Details
+
+**FastAPI** will know that it can use the class `OAuth2PasswordBearer` (declared in a dependency) to define the security scheme in OpenAPI because it inherits from `fastapi.security.oauth2.OAuth2`, which in turn inherits from `fastapi.security.base.SecurityBase`.
+
+All the security utilities that integrate with OpenAPI (and the automatic API docs) inherit from `SecurityBase`, that's how **FastAPI** can know how to
+
+Sources: tutorial_security_first-steps.md, tutorial_security_index.md",36.71,Yes,Yes,No
